@@ -8,9 +8,10 @@ layout: true
 
 <!-- This slide will serve as the base layout for all your slides -->
 .bottom-bar[
-.small[
-.center[Copyright 2017 - {{thisyear}} FUJITSU CLOUD TECHNOLOGIES LIMITED]
-]]
+  .small[
+  .center[Copyright 2017 - {{thisyear}} FUJITSU CLOUD TECHNOLOGIES LIMITED]
+  ]
+]
 
 ---
 
@@ -22,7 +23,6 @@ class: impact
 .footer[
     {{company_ja}}
 ]
-
 ---
 
 # はじめに
@@ -37,7 +37,7 @@ class: impact
 
 ## 事前準備
 
-以下のものを事前に用意しておいてください
+以下のものを事前に用意しておいてください。
 - Google Chrome最新版
 - Monacaアカウント
 - ニフクラ mobile backendアカウント
@@ -47,12 +47,27 @@ class: impact
 # 自己紹介
 
 .col-6[
-## 佐々木 大樹
-### 所属
-富士通クラウドテクノロジーズ株式会社
-### 業務
-ニフクラ mobile backend 企画
+  ## 佐々木 大樹
+  ### 所属
+  富士通クラウドテクノロジーズ株式会社
+  ### 業務
+  ニフクラ mobile backend 企画
 ]
+
+.col-6[
+  <img src="img/sasaki.jpg" style="width:400px">
+]
+
+---
+
+# 
+
+---
+
+# まとめ
+
+## hoge
+## fuga
 
 ---
 

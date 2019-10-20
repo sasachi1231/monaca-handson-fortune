@@ -1,3 +1,4 @@
+title: Monaca × ニフクラ mobile backendでクラウド連携アプリ開発ハンズオン！
 title_row1: Monaca × ニフクラ mobile backendで
 title_row2: クラウド連携アプリ開発ハンズオン！
 company_ja: 富士通クラウドテクノロジーズ株式会社
@@ -23,9 +24,16 @@ class: impact
 .footer[
     {{company_ja}}
 ]
+
 ---
 
-# はじめに
+class: impact
+
+## はじめに
+
+---
+
+# 前段
 
 ## 本日の資料
 
@@ -72,6 +80,12 @@ class: impact
 
 ---
 
+class: impact
+
+## 準備
+
+---
+
 # ニフクラ mobile backendの準備
 
 ## アプリの作成
@@ -86,13 +100,68 @@ class: impact
 
 ## プロジェクトの作成
 
+Monacaダッシュボード(要ログイン)から、以下の手順でプロジェクトを作成します。
 
+.col-4[
+  <img src="img/monaca_create_project1.png" style="width:100%">
+]
+.col-4[
+  <img src="img/monaca_create_project2.png" style="width:100%">
+]
+.col-4[
+  <img src="img/monaca_create_project3.png" style="width:100%">
+]
 
-Monacaダッシュボードから、「新しいプロジェクトを作る」→「最小限のテンプレート」を選んでプロジェクトを作成します。。
+作成されたら、作成したプロジェクトをクリックして「クラウドIDEで開く」を押してください。
 
 ---
 
-# 
+#  Monacaの準備
+
+この画面が表示されます。  
+これで準備は完了です。
+
+.center[<img src="img/monaca-ide.png" style="width:70%">]
+
+---
+
+class: impact
+
+## Monaca × ニフクラ mobile backendの連携
+
+---
+
+# Monacaとmobile backendの連携
+
+## SDKの導入①
+
+以下手順でmobile backendのJavaScript SDKの導入します。
+
+.center[
+  .col-6[
+    <img src="img/import-js-sdk1.png" style="width:70%">
+  ]
+  .col-6[
+    <img src="img/import-js-sdk2.png" style="width:70%">
+  ]
+]
+
+---
+
+# Monacaとmobile backendの連携
+
+## SDKの導入②
+
+以下手順でmobile backendのJavaScript SDKの導入します。
+
+.center[
+  .col-6[
+    <img src="img/import-js-sdk3.png" style="width:70%">
+  ]
+  .col-6[
+    <img src="img/import-js-sdk4.png" style="width:70%">
+  ]
+]
 
 ---
 

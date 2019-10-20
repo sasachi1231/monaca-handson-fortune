@@ -41,8 +41,6 @@ class: impact
 ※ソースコードをコピペする際などに利用します  
 .big[__https://hgoehoge__]
 
---
-
 ## 事前準備
 
 以下のものを事前に用意しておいてください。
@@ -59,7 +57,7 @@ class: impact
   ### 所属
   富士通クラウドテクノロジーズ株式会社
   ### 業務
-  ニフクラ mobile backend 企画
+  ニフクラ mobile backend 企画／営業
 ]
 
 .col-6[
@@ -90,9 +88,25 @@ class: impact
 
 ## アプリの作成
 
+mobile backendにログインして、以下の手順でアプリを作成します。
+
+.center[
+  .col-6[
+    <img src="img/ncmb-create-app1.png" style="width:55%">
+  ]
+  .col-6[
+    <img src="img/ncmb-create-app2.png" style="width:100%">
+  ]
+]
+
 ---
 
-# 
+# ニフクラ mobile backendの準備
+
+この画面が表示されます。  
+これでmobile backendの準備は完了です。タブはこのままにしておき、新しいタブを開いて次のステップへ進みます。
+
+.center[<img src="img/ncmb-create-app3.png" style="width:40%">]
 
 ---
 
@@ -119,7 +133,7 @@ Monacaダッシュボード(要ログイン)から、以下の手順でプロジ
 #  Monacaの準備
 
 この画面が表示されます。  
-これで準備は完了です。
+これで準備は完了です。開いたタブはそのままにしておきましょう。
 
 .center[<img src="img/monaca-ide.png" style="width:70%">]
 
@@ -162,6 +176,54 @@ class: impact
     <img src="img/import-js-sdk4.png" style="width:70%">
   ]
 ]
+
+---
+
+# Monacaとmobile backendの連携
+
+## APIキーの入力①
+
+Monaca上のindex.htmlの10, 11行目にある以下部分を書き換えてmobile backend上のアプリへつなぎ込みを行います。
+
+
+```html
+<script>
+</script>
+```
+
+以下のように書き換えましょう。
+
+```html
+<script>
+  const APPLICATION_KEY = 'アプリケーションキー';
+  const CLIENT_KEY = 'クライアントキー';
+  const ncmb = new NCMB(APPLICATION_KEY, CLIENT_KEY);
+</script>
+```
+
+上記コードの'アプリケーションキー'、'クライアントキー'の部分に、mobile backend上の一つ一つのアプリ固有のキーを入力することにより、mobile backend上のどのアプリと連携するのかが決まります。
+
+---
+
+# Monacaとmobile backendの連携
+
+.col-6[
+
+  ## APIキーの入力②
+
+  mobile backendのタブに戻り、画面に表示されている「アプリケーションキー」「クライアントキー」をそれぞれコード上の'アプリケーションキー'、'クライアントキー'の部分に置き換える形で入力します。
+
+  コピペミスを防ぐため、キーの右側にある「コピーボタン」を押すと確実です。
+
+  また、すでに「OK」を押して画面を閉じてしまった場合は、画面右上の「アプリ設定」をクリックすると、中段にある「APIキー」の欄で同様の情報をご確認いただけます。
+
+  なお、APIキーは重要な情報なので、第三者に知られることのないようにしましょう。
+
+]
+
+.center[<img src="img/ncmb-create-app3.png" style="width:40%">]
+
+
 
 ---
 

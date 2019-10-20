@@ -29,7 +29,7 @@ class: impact
 
 ## 本日の資料
 
-本日の資料はここにあります。  
+本日の資料(この資料)はここにあります。  
 ※ソースコードをコピペする際などに利用します  
 .big[__https://hgoehoge__]
 
@@ -60,15 +60,57 @@ class: impact
 
 ---
 
+# ニフクラ mobile backendとは
+
+<img src="img/about_mbaas.jpg" style="width:100%">
+
+---
+
+# ニフクラ mobile backend × Monaca
+
+.center[<img src="img/monaca_x_mbaas.jpg" style=width:90%>]
+
+---
+
+# ニフクラ mobile backendの準備
+
+## アプリの作成
+
+---
+
+# 
+
+---
+
+# Monacaの準備
+
+## プロジェクトの作成
+
+
+
+Monacaダッシュボードから、「新しいプロジェクトを作る」→「最小限のテンプレート」を選んでプロジェクトを作成します。。
+
+---
+
 # 
 
 ---
 
 # まとめ
 
+--
+
 ## hoge
+
+--
+
 ## fuga
 
+--
+
+.center[
+  .big[ありがとうございました！]
+]
 ---
 
 # There's more

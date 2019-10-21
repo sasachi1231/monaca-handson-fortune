@@ -48,6 +48,11 @@ class: impact
 - Monacaアカウント
 - ニフクラ mobile backendアカウント
 
+???
+
+- 資料からコピペをすることがあるので、できれば資料を開いておいてください
+- Windows / Mac / Chromebook
+
 ---
 
 # 自己紹介
@@ -64,11 +69,28 @@ class: impact
   <img src="img/sasaki.jpg" style="width:400px">
 ]
 
+???
+
+- 富士通クラウドテクノロジーズという会社でニフクラ mobile backendの企画／営業を担当しているささきひろきと申します
+
 ---
 
 # ニフクラ mobile backendとは
 
-<img src="img/about_mbaas.jpg" style="width:100%">
+.center[
+  <img src="img/about_mbaas.jpg" style="width:95%">
+
+  https://mbaas.nifcloud.com/
+]
+
+???
+
+- ニフクラ mobile backendは「mBaaS - mobile backend as a service」というカテゴリのサービス
+- mBaaSとは、スマートフォンアプリに必要な以下が開発不要になるサービス
+    - プッシュ通知
+    - データベース
+    - 会員認証
+- それによって、開発スピードが上がったり、コストがカットできたりする。
 
 ---
 
@@ -76,11 +98,16 @@ class: impact
 
 .center[<img src="img/monaca_x_mbaas.jpg" style=width:90%>]
 
+???
+
+- Monacaと非常に親密に連携している
+- 後ほど体験いただけるが、SDKの導入も非常に楽
+
 ---
 
 # Monacaユーザーに最も支持されるクラウド
 
-ニフクラ mobile backendは、プッシュ通知、mBaaSの2部門で、Monacaユーザーに最も利用されるクラウドです！
+ニフクラ mobile backendは、プッシュ通知、mBaaSの2部門で、MonacaユーザーNo.1の支持を獲得しました！
 
 .center[
   .col-6[
@@ -92,6 +119,34 @@ class: impact
 ]
 
 .col-6[※出典：https://press.monaca.io/ryo/2001]
+
+???
+
+- Monacaのオウンドメディア「モナカプレス」の記事
+- プッシュ通知／mBaaSの2部門でMonacaユーザーNo.1の支持を獲得
+
+---
+
+class: impact
+
+## 作るもの
+
+---
+
+# 作るもの
+
+大吉～大凶などの値をクラウドから引っ張ってきてランダムに表示するおみくじアプリ  
+値はクラウドに保存してあるので、表示される運勢はクラウドから書き換えが可能
+
+.center[
+  .col-6[
+    <img src="img/test-preview1.png" style="width:60%">
+  ]
+  .col-6[
+    <img src="img/test-preview2.png" style="width:60%">
+  ]
+]
+
 
 ---
 
@@ -105,7 +160,7 @@ class: impact
 
 ## アプリの作成
 
-mobile backendにログインして、以下の手順でアプリを作成します。
+mobile backendの管理画面( https://console.nifcloud.com/ )にログインして、以下の手順でアプリを作成します。
 
 .center[
   .col-6[
@@ -115,6 +170,10 @@ mobile backendにログインして、以下の手順でアプリを作成しま
     <img src="img/ncmb-create-app2.png" style="width:100%">
   ]
 ]
+
+???
+
+- ここではアプリ名は「Fortune」とします。
 
 ---
 
@@ -342,14 +401,14 @@ Monacaのタブを開き、index.htmlの16行目から始まるbodyタグの中�
 </body>
 ```
 
-ボタンが押されると、Omikuji()という関数が呼ばれます。  
+ボタンが押されると、omikuji()という関数が呼ばれます。  
 まだ処理を実装していないので、現時点ではクリックしても何も起こりません。
 
 ---
 
 # mobile backendからデータを取得する
 
-## 取得処理の実装
+## 取得処理の実装①
 
 では、先程配置したボタンが押されたときにおみくじを引く処理を実装していきます。  
 10行目からのscriptタグの中に、以下を追記します。
@@ -359,18 +418,59 @@ function omikuji() { // おみくじボタン押下時の処理
   var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
   // 取得処理
   Omikuji.fetchAll()
-          .then(function(objects){
-            var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
-            var object = objects[random]; // 乱数番目のデータ
-            var result= object.get("result"); // 「result」フィールドの値を取得
-            document.getElementById("result").innerText = result; // 画面に結果を表示
-        })
-        .catch(function(error){
-            /* 取得失敗時の処理 */
-            alert("Error: " + error.code);
-        });
+    .then(function(objects){
+      var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
+      var object = objects[random]; // 乱数番目のデータ
+      var result= object.get("result"); // 「result」フィールドの値を取得
+      document.getElementById("result").innerText = result; // 画面に結果を表示
+      })
+    .catch(function(error){
+      /* 取得失敗時の処理 */
+      alert("Error: " + error.code);
+    });
 }
 ```
+
+---
+
+# mobile backendからデータを取得する
+
+## 取得処理の実装②
+
+```js
+var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
+```
+
+データストア上のOmikujiクラスを参照するためのクラスOmikujiを作成します。
+
+```js
+Omikuji.fetchAll()
+  .then(function(objects){
+    var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
+    var object = objects[random]; // 乱数番目のデータ
+    var result= object.get("result"); // 「result」フィールドの値を取得
+    document.getElementById("result").innerText = result; // 画面に結果を表示
+  })
+```
+
+そして、Omikujiクラスのデータを配列型で一気に取得します。※デフォルトで100件取得します。  
+0から配列に格納されているメンバの数(objects.length)-1までのいずれかの整数をランダムに生成します。  
+そしてそれを変数resultに格納し、最後にDOMを使って画面に描画します。
+
+---
+
+# mobile backendからデータを取得する
+
+## 取得処理の実装③
+
+```js
+.catch(function(error){
+  /* 取得失敗時の処理 */
+  alert("Error: " + error.code);
+});
+```
+
+さいごに、何らかの失敗をした場合のために、catchでエラーを出力するようにしています。
 
 ---
 
@@ -401,75 +501,19 @@ scriptタグ全体としては、以下のようになります。
   }
 </script>
 ```
-
----
-
-# まとめ
-
---
-
-## hoge
-
---
-
-## fuga
-
---
-
-.center[
-  .big[ありがとうございました！]
-]
-
 ---
 
 class: impact
 
-## 以下、一時保存用
+## 完成！
 
 ---
 
-# mobile backendからデータを取得する
+# プレビュー画面で触ってみる
 
-## 取得処理の実装①
-
-では、先程配置したボタンが押されたときにおみくじを引く処理を実装していきます。  
-10行目からのscriptタグの中に、以下を追記します。
-
-```js
-function omikuji() { // おみくじボタン押下時の処理
-  var result = "テストです"; // 現時点では、仮で「テストです」と入れる
-  document.getElementById("result").innerText = result; // 画面に結果を表示
-}
-```
-
----
-
-# mobile backendからデータを取得する
-
-## 取得処理の実装②
-
-scriptタグ全体としては、以下のようになります。
-
-```html
-    <script>
-      var APPLICATION_KEY = 'アプリケーションキー'; // アプリケーションキーの設定
-      var CLIENT_KEY = 'クライアントキー'; // クライアントキーの設定
-      var ncmb = new NCMB(APPLICATION_KEY, CLIENT_KEY); // SDKの初期化処理
-
-      function omikuji() { // おみくじボタン押下時の処理
-        var result = "テストです"; // 現時点では、仮で「テストです」と入れる
-        document.getElementById("result").innerText = result; // 画面に結果を表示
-      }
-    </script>
-```
-
----
-
-# mobile backendからデータを取得する
-
-## 現時点の状況
-
-いま時点でどのように動作するのか、Monacaのプレビュー画面にて試してみましょう。
+「おみくじを引く」ボタンを押すことで、無事運勢が表示されます。  
+何度もクリックすると、また違った運勢が表示されます。  
+これで、無事クラウドと連携できたことが分かるかと思います。
 
 .center[
   .col-6[
@@ -478,4 +522,30 @@ scriptタグ全体としては、以下のようになります。
   .col-6[
     <img src="img/test-preview2.png" style="width:60%">
   ]
+]
+
+---
+
+# まとめ
+
+--
+
+## クラウドを使って、アプリ開発をより簡単に！
+
+- ニフクラ mobile backendを使えば、自前で構築すると複雑になりがちなバックエンド側の処理をより簡単に開発可能！
+- その分浮いたリソースをユーザーが直接触るフロントエンドに回すことで、よりリッチなアプリを開発！
+- Monaca以外にも、Swift, Objective-C, Java, Unity(C#)などに対応！
+
+--
+
+## データストア以外にも豊富な機能！
+
+- 今回はデータストアを体験いただきましたが、データストア以外にもプッシュ通知／ユーザー認証／ファイルストア(ストレージ)など、開発を助ける機能が盛りだくさん！
+- 詳しくは是非ドキュメントをご覧ください！
+  https://mbaas.nifcloud.com/doc/current/
+
+--
+
+.center[
+  .big[ご清聴ありがとうございました！]
 ]

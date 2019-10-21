@@ -39,7 +39,7 @@ class: impact
 
 本日の資料(この資料)はここにあります。  
 ※ソースコードをコピペする際などに利用します  
-.big[__https://hgoehoge__]
+.big[**bit.ly/monaca_x_ncmb**]
 
 ## 事前準備
 
@@ -75,6 +75,23 @@ class: impact
 # ニフクラ mobile backend × Monaca
 
 .center[<img src="img/monaca_x_mbaas.jpg" style=width:90%>]
+
+---
+
+# Monacaユーザーに最も支持されるクラウド
+
+ニフクラ mobile backendは、プッシュ通知、mBaaSの2部門で、Monacaユーザーに最も利用されるクラウドです！
+
+.center[
+  .col-6[
+    <img src="img/push-survey.png" style="width:90%">
+  ]
+  .col-6[
+    <img src="img/mbaas-survey.png" style="width:90%">
+  ]
+]
+
+.col-6[※出典：https://press.monaca.io/ryo/2001]
 
 ---
 
@@ -195,9 +212,9 @@ Monaca上のindex.htmlの10, 11行目にある以下部分を書き換えてmobi
 
 ```html
 <script>
-  const APPLICATION_KEY = 'アプリケーションキー';
-  const CLIENT_KEY = 'クライアントキー';
-  const ncmb = new NCMB(APPLICATION_KEY, CLIENT_KEY);
+  var APPLICATION_KEY = 'アプリケーションキー'; // アプリケーションキーの設定
+  var CLIENT_KEY = 'クライアントキー'; // クライアントキーの設定
+  var ncmb = new NCMB(APPLICATION_KEY, CLIENT_KEY); // SDKの初期化処理
 </script>
 ```
 
@@ -223,7 +240,41 @@ Monaca上のindex.htmlの10, 11行目にある以下部分を書き換えてmobi
 
 .center[<img src="img/ncmb-create-app3.png" style="width:40%">]
 
+---
 
+class: impact
+
+## mobile backendへのデータの登録
+
+---
+
+# mobile backendへのデータの登録
+
+## データストアを使う①
+
+mobile bacnekdに画面で、データストア(データベース)機能を使いましょう。  
+左側メニューの「データストア」をクリックし、新しいクラス(データストアの単位)を作成します。
+
+.center[
+  .col-6[
+    <img src="img/create-datastore-class1.png" style="width:70%">
+  ]
+  .col-6[
+    <img src="img/create-datastore-class2.png" style="width:100%">
+  ]
+]
+
+---
+
+# mobile backendへのデータの登録
+
+## データストアを使う②
+
+クラスが作成され、この画面が表示されます。
+
+.center[
+  <img src="img/create-datastore-class3.png" style="width:50%">
+]
 
 ---
 

@@ -278,6 +278,132 @@ mobile bacnekdに画面で、データストア(データベース)機能を使�
 
 ---
 
+# mobile backendへのデータの登録
+
+## データストアを使う③
+
+「＋新しいフィールド」をクリックし、おみくじの結果を格納するフィールド(列)「result」を追加します。
+
+.center[
+  .col-6[
+    <img src="img/create-datastore-field1.png" style="width:60%">
+  ]
+  .col-6[
+    <img src="img/create-datastore-field2.png" style="width:80%">
+  ]
+]
+
+---
+
+# mobile backendへのデータの登録
+
+## データストアを使う④
+
+次に、「＋新しいレコード」をクリックし、実際にデータ(おみくじの結果)を作っていきます。  
+大吉が作成できたら、同じように「中吉」「小吉」「吉」「凶」「大凶」などなど入れてみましょう。
+
+.center[
+  .col-6[
+    <img src="img/create-datastore-record1.png" style="width:70%">
+  ]
+  .col-6[
+    <img src="img/create-datastore-record2.png" style="width:100%">
+    <img src="img/create-datastore-record3.png" style="width:100%">
+  ]
+]
+
+---
+
+class: impact
+
+## mobile backendからデータを取得する
+
+---
+
+# mobile backendからデータを取得する
+
+## 画面を作る
+
+Monacaのタブを開き、index.htmlの16行目から始まるbodyタグの中身を以下記述に置き換えます。
+
+```html
+<body>
+	<br />
+    This is a template for Monaca app.
+</body>
+```
+
+こちらを以下に置き換えます。
+
+```html
+<body>
+  <button onclick="omikuji();">おみくじを引く</button>
+  結果：<span id="result"></span>
+</body>
+```
+
+ボタンが押されると、Omikuji()という関数が呼ばれます。  
+まだ処理を実装していないので、現時点ではクリックしても何も起こりません。
+
+---
+
+# mobile backendからデータを取得する
+
+## 取得処理の実装
+
+では、先程配置したボタンが押されたときにおみくじを引く処理を実装していきます。  
+10行目からのscriptタグの中に、以下を追記します。
+
+```js
+function omikuji() { // おみくじボタン押下時の処理
+  var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
+  // 取得処理
+  Omikuji.fetchAll()
+          .then(function(objects){
+            var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
+            var object = objects[random]; // 乱数番目のデータ
+            var result= object.get("result"); // 「result」フィールドの値を取得
+            document.getElementById("result").innerText = result; // 画面に結果を表示
+        })
+        .catch(function(error){
+            /* 取得失敗時の処理 */
+            alert("Error: " + error.code);
+        });
+}
+```
+
+---
+
+# mobile backendからデータを取得する
+
+scriptタグ全体としては、以下のようになります。
+
+```html
+<script>
+  var APPLICATION_KEY = 'アプリケーションキー'; // アプリケーションキーの設定
+  var CLIENT_KEY = 'クライアントキー'; // クライアントキーの設定
+  var ncmb = new NCMB(APPLICATION_KEY, CLIENT_KEY); // SDKの初期化処理
+
+  function omikuji() { // おみくじボタン押下時の処理
+    var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
+    // 取得処理
+    Omikuji.fetchAll()
+      .then(function(objects){
+        var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
+        var object = objects[random]; // 乱数番目のデータ
+        var result= object.get("result"); // 「result」フィールドの値を取得
+        document.getElementById("result").innerText = result; // 画面に結果を表示
+      })
+      .catch(function(error){
+        /* 取得失敗時の処理 */
+        alert("Error: " + error.code);
+      });
+  }
+</script>
+```
+
+---
+
 # まとめ
 
 --
@@ -293,43 +419,63 @@ mobile bacnekdに画面で、データストア(データベース)機能を使�
 .center[
   .big[ありがとうございました！]
 ]
+
 ---
 
-# There's more
+class: impact
 
-## Syntax highlighting
+## 以下、一時保存用
 
-You can also add `code` to your slides:
-```html
-<div class="impact">Some HTML code</div>
+---
+
+# mobile backendからデータを取得する
+
+## 取得処理の実装①
+
+では、先程配置したボタンが押されたときにおみくじを引く処理を実装していきます。  
+10行目からのscriptタグの中に、以下を追記します。
+
+```js
+function omikuji() { // おみくじボタン押下時の処理
+  var result = "テストです"; // 現時点では、仮で「テストです」と入れる
+  document.getElementById("result").innerText = result; // 画面に結果を表示
+}
 ```
 
-## CSS classes
+---
 
-You can use .alt[shortcut] syntax to apply .big[some style!]
+# mobile backendからデータを取得する
 
-...or just <span class="alt">HTML</span> if you prefer.
+## 取得処理の実装②
+
+scriptタグ全体としては、以下のようになります。
+
+```html
+    <script>
+      var APPLICATION_KEY = 'アプリケーションキー'; // アプリケーションキーの設定
+      var CLIENT_KEY = 'クライアントキー'; // クライアントキーの設定
+      var ncmb = new NCMB(APPLICATION_KEY, CLIENT_KEY); // SDKの初期化処理
+
+      function omikuji() { // おみくじボタン押下時の処理
+        var result = "テストです"; // 現時点では、仮で「テストです」と入れる
+        document.getElementById("result").innerText = result; // 画面に結果を表示
+      }
+    </script>
+```
 
 ---
 
-# And more...
+# mobile backendからデータを取得する
 
-## 12-column grid layout
+## 現時点の状況
 
-Use to the included **grid layout** classes to split content easily:
-.col-6[
-  ### Left column
+いま時点でどのように動作するのか、Monacaのプレビュー画面にて試してみましょう。
 
-  - I'm on the left
-  - It's neat!
+.center[
+  .col-6[
+    <img src="img/test-preview1.png" style="width:60%">
+  ]
+  .col-6[
+    <img src="img/test-preview2.png" style="width:60%">
+  ]
 ]
-.col-6[
-  ### Right column
-
-  - I'm on the right
-  - I love it!
-]
-
-## Learn the tricks
-
-See the [wiki](https://github.com/gnab/remark/wiki) to learn more of what you can do with .alt[Remark.js]

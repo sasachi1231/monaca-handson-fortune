@@ -39,9 +39,7 @@ class: impact
 
 本日の資料(この資料)はここにあります。  
 ※ソースコードをコピペする際などに利用します  
-.big[__https://hgoehoge__]
-
---
+.big[**bit.ly/monaca_x_ncmb**]
 
 ## 事前準備
 
@@ -50,33 +48,105 @@ class: impact
 - Monacaアカウント
 - ニフクラ mobile backendアカウント
 
+???
+
+- 資料からコピペをすることがあるので、できれば資料を開いておいてください
+- Windows / Mac / Chromebook
+
 ---
 
 # 自己紹介
 
 .col-6[
-  ## 佐々木大樹
+  ## 佐々木 大樹
   ### 所属
   富士通クラウドテクノロジーズ株式会社
   ### 業務
-  ニフクラ mobile backend 企画
+  ニフクラ mobile backend 企画／営業
 ]
 
 .col-6[
   <img src="img/sasaki.jpg" style="width:400px">
 ]
 
+???
+
+- 富士通クラウドテクノロジーズという会社でニフクラ mobile backendの企画／営業を担当しているささきひろきと申します
+
 ---
 
 # ニフクラ mobile backendとは
 
-<img src="img/about_mbaas.jpg" style="width:100%">
+.center[
+  <img src="img/about_mbaas.jpg" style="width:95%">
+
+  https://mbaas.nifcloud.com/
+]
+
+???
+
+- ニフクラ mobile backendは「mBaaS - mobile backend as a service」というカテゴリのサービス
+- mBaaSとは、スマートフォンアプリに必要な以下が開発不要になるサービス
+    - プッシュ通知
+    - データベース
+    - 会員認証
+- それによって、開発スピードが上がったり、コストがカットできたりする。
 
 ---
 
 # ニフクラ mobile backend × Monaca
 
 .center[<img src="img/monaca_x_mbaas.jpg" style=width:90%>]
+
+???
+
+- Monacaと非常に親密に連携している
+- 後ほど体験いただけるが、SDKの導入も非常に楽
+
+---
+
+# Monacaユーザーに最も支持されるクラウド
+
+ニフクラ mobile backendは、プッシュ通知、mBaaSの2部門で、MonacaユーザーNo.1の支持を獲得しました！
+
+.center[
+  .col-6[
+    <img src="img/push-survey.png" style="width:90%">
+  ]
+  .col-6[
+    <img src="img/mbaas-survey.png" style="width:90%">
+  ]
+]
+
+.col-6[※出典：https://press.monaca.io/ryo/2001]
+
+???
+
+- Monacaのオウンドメディア「モナカプレス」の記事
+- プッシュ通知／mBaaSの2部門でMonacaユーザーNo.1の支持を獲得
+
+---
+
+class: impact
+
+## 作るもの
+
+---
+
+# 作るもの
+
+大吉～大凶などの値をクラウドから引っ張ってきてランダムに表示するおみくじアプリ  
+値はクラウドに保存してあるので、表示される運勢はクラウドから書き換えが可能
+
+.center[
+  .col-6[
+    <img src="img/test-preview1.png" style="width:60%">
+  ]
+  .col-6[
+    <img src="img/test-preview2.png" style="width:60%">
+  ]
+]
+
 
 ---
 
@@ -90,9 +160,29 @@ class: impact
 
 ## アプリの作成
 
+mobile backendの管理画面( https://console.nifcloud.com/ )にログインして、以下の手順でアプリを作成します。
+
+.center[
+  .col-6[
+    <img src="img/ncmb-create-app1.png" style="width:55%">
+  ]
+  .col-6[
+    <img src="img/ncmb-create-app2.png" style="width:100%">
+  ]
+]
+
+???
+
+- ここではアプリ名は「Fortune」とします。
+
 ---
 
-# 
+# ニフクラ mobile backendの準備
+
+この画面が表示されます。  
+これでmobile backendの準備は完了です。タブはこのままにしておき、新しいタブを開いて次のステップへ進みます。
+
+.center[<img src="img/ncmb-create-app3.png" style="width:40%">]
 
 ---
 
@@ -119,7 +209,7 @@ Monacaダッシュボード(要ログイン)から、以下の手順でプロジ
 #  Monacaの準備
 
 この画面が表示されます。  
-これで準備は完了です。
+これで準備は完了です。開いたタブはそのままにしておきましょう。
 
 .center[<img src="img/monaca-ide.png" style="width:70%">]
 
@@ -165,58 +255,297 @@ class: impact
 
 ---
 
+# Monacaとmobile backendの連携
+
+## APIキーの入力①
+
+Monaca上のindex.htmlの10, 11行目にある以下部分を書き換えてmobile backend上のアプリへつなぎ込みを行います。
+
+
+```html
+<script>
+</script>
+```
+
+以下のように書き換えましょう。
+
+```html
+<script>
+  var APPLICATION_KEY = 'アプリケーションキー'; // アプリケーションキーの設定
+  var CLIENT_KEY = 'クライアントキー'; // クライアントキーの設定
+  var ncmb = new NCMB(APPLICATION_KEY, CLIENT_KEY); // SDKの初期化処理
+</script>
+```
+
+上記コードの'アプリケーションキー'、'クライアントキー'の部分に、mobile backend上の一つ一つのアプリ固有のキーを入力することにより、mobile backend上のどのアプリと連携するのかが決まります。
+
+---
+
+# Monacaとmobile backendの連携
+
+.col-6[
+
+  ## APIキーの入力②
+
+  mobile backendのタブに戻り、画面に表示されている「アプリケーションキー」「クライアントキー」をそれぞれコード上の'アプリケーションキー'、'クライアントキー'の部分に置き換える形で入力します。
+
+  コピペミスを防ぐため、キーの右側にある「コピーボタン」を押すと確実です。
+
+  また、すでに「OK」を押して画面を閉じてしまった場合は、画面右上の「アプリ設定」をクリックすると、中段にある「APIキー」の欄で同様の情報をご確認いただけます。
+
+  なお、APIキーは重要な情報なので、第三者に知られることのないようにしましょう。
+
+]
+
+.center[<img src="img/ncmb-create-app3.png" style="width:40%">]
+
+---
+
+class: impact
+
+## mobile backendへのデータの登録
+
+---
+
+# mobile backendへのデータの登録
+
+## データストアを使う①
+
+mobile bacnekdに画面で、データストア(データベース)機能を使いましょう。  
+左側メニューの「データストア」をクリックし、新しいクラス(データストアの単位)を作成します。
+
+.center[
+  .col-6[
+    <img src="img/create-datastore-class1.png" style="width:70%">
+  ]
+  .col-6[
+    <img src="img/create-datastore-class2.png" style="width:100%">
+  ]
+]
+
+---
+
+# mobile backendへのデータの登録
+
+## データストアを使う②
+
+クラスが作成され、この画面が表示されます。
+
+.center[
+  <img src="img/create-datastore-class3.png" style="width:50%">
+]
+
+---
+
+# mobile backendへのデータの登録
+
+## データストアを使う③
+
+「＋新しいフィールド」をクリックし、おみくじの結果を格納するフィールド(列)「result」を追加します。
+
+.center[
+  .col-6[
+    <img src="img/create-datastore-field1.png" style="width:60%">
+  ]
+  .col-6[
+    <img src="img/create-datastore-field2.png" style="width:80%">
+  ]
+]
+
+---
+
+# mobile backendへのデータの登録
+
+## データストアを使う④
+
+次に、「＋新しいレコード」をクリックし、実際にデータ(おみくじの結果)を作っていきます。  
+大吉が作成できたら、同じように「中吉」「小吉」「吉」「凶」「大凶」などなど入れてみましょう。
+
+.center[
+  .col-6[
+    <img src="img/create-datastore-record1.png" style="width:70%">
+  ]
+  .col-6[
+    <img src="img/create-datastore-record2.png" style="width:100%">
+    <img src="img/create-datastore-record3.png" style="width:100%">
+  ]
+]
+
+---
+
+class: impact
+
+## mobile backendからデータを取得する
+
+---
+
+# mobile backendからデータを取得する
+
+## 画面を作る
+
+Monacaのタブを開き、index.htmlの16行目から始まるbodyタグの中身を以下記述に置き換えます。
+
+```html
+<body>
+	<br />
+    This is a template for Monaca app.
+</body>
+```
+
+こちらを以下に置き換えます。
+
+```html
+<body>
+  <button onclick="omikuji();">おみくじを引く</button>
+  結果：<span id="result"></span>
+</body>
+```
+
+ボタンが押されると、omikuji()という関数が呼ばれます。  
+まだ処理を実装していないので、現時点ではクリックしても何も起こりません。
+
+---
+
+# mobile backendからデータを取得する
+
+## 取得処理の実装①
+
+では、先程配置したボタンが押されたときにおみくじを引く処理を実装していきます。  
+10行目からのscriptタグの中に、以下を追記します。
+
+```js
+function omikuji() { // おみくじボタン押下時の処理
+  var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
+  // 取得処理
+  Omikuji.fetchAll()
+    .then(function(objects){
+      var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
+      var object = objects[random]; // 乱数番目のデータ
+      var result= object.get("result"); // 「result」フィールドの値を取得
+      document.getElementById("result").innerText = result; // 画面に結果を表示
+      })
+    .catch(function(error){
+      /* 取得失敗時の処理 */
+      alert("Error: " + error.code);
+    });
+}
+```
+
+---
+
+# mobile backendからデータを取得する
+
+## 取得処理の実装②
+
+```js
+var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
+```
+
+データストア上のOmikujiクラスを参照するためのクラスOmikujiを作成します。
+
+```js
+Omikuji.fetchAll()
+  .then(function(objects){
+    var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
+    var object = objects[random]; // 乱数番目のデータ
+    var result= object.get("result"); // 「result」フィールドの値を取得
+    document.getElementById("result").innerText = result; // 画面に結果を表示
+  })
+```
+
+そして、Omikujiクラスのデータを配列型で一気に取得します。※デフォルトで100件取得します。  
+0から配列に格納されているメンバの数(objects.length)-1までのいずれかの整数をランダムに生成します。  
+そしてそれを変数resultに格納し、最後にDOMを使って画面に描画します。
+
+---
+
+# mobile backendからデータを取得する
+
+## 取得処理の実装③
+
+```js
+.catch(function(error){
+  /* 取得失敗時の処理 */
+  alert("Error: " + error.code);
+});
+```
+
+さいごに、何らかの失敗をした場合のために、catchでエラーを出力するようにしています。
+
+---
+
+# mobile backendからデータを取得する
+
+scriptタグ全体としては、以下のようになります。
+
+```html
+<script>
+  var APPLICATION_KEY = 'アプリケーションキー'; // アプリケーションキーの設定
+  var CLIENT_KEY = 'クライアントキー'; // クライアントキーの設定
+  var ncmb = new NCMB(APPLICATION_KEY, CLIENT_KEY); // SDKの初期化処理
+
+  function omikuji() { // おみくじボタン押下時の処理
+    var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
+    // 取得処理
+    Omikuji.fetchAll()
+      .then(function(objects){
+        var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
+        var object = objects[random]; // 乱数番目のデータ
+        var result= object.get("result"); // 「result」フィールドの値を取得
+        document.getElementById("result").innerText = result; // 画面に結果を表示
+      })
+      .catch(function(error){
+        /* 取得失敗時の処理 */
+        alert("Error: " + error.code);
+      });
+  }
+</script>
+```
+---
+
+class: impact
+
+## 完成！
+
+---
+
+# プレビュー画面で触ってみる
+
+「おみくじを引く」ボタンを押すことで、無事運勢が表示されます。  
+何度もクリックすると、また違った運勢が表示されます。  
+これで、無事クラウドと連携できたことが分かるかと思います。
+
+.center[
+  .col-6[
+    <img src="img/test-preview1.png" style="width:60%">
+  ]
+  .col-6[
+    <img src="img/test-preview2.png" style="width:60%">
+  ]
+]
+
+---
+
 # まとめ
 
 --
 
-## hoge
+## クラウドを使って、アプリ開発をより簡単に！
+
+- ニフクラ mobile backendを使えば、自前で構築すると複雑になりがちなバックエンド側の処理をより簡単に開発可能！
+- その分浮いたリソースをユーザーが直接触るフロントエンドに回すことで、よりリッチなアプリを開発！
+- Monaca以外にも、Swift, Objective-C, Java, Unity(C#)などに対応！
 
 --
 
-## fuga
+## データストア以外にも豊富な機能！
+
+- 今回はデータストアを体験いただきましたが、データストア以外にもプッシュ通知／ユーザー認証／ファイルストア(ストレージ)など、開発を助ける機能が盛りだくさん！
+- 詳しくは是非ドキュメントをご覧ください！
+  https://mbaas.nifcloud.com/doc/current/
 
 --
 
 .center[
-  .big[ありがとうございました！]
+  .big[ご清聴ありがとうございました！]
 ]
----
-
-# There's more
-
-## Syntax highlighting
-
-You can also add `code` to your slides:
-```html
-<div class="impact">Some HTML code</div>
-```
-
-## CSS classes
-
-You can use .alt[shortcut] syntax to apply .big[some style!]
-
-...or just <span class="alt">HTML</span> if you prefer.
-
----
-
-# And more...
-
-## 12-column grid layout
-
-Use to the included **grid layout** classes to split content easily:
-.col-6[
-  ### Left column
-
-  - I'm on the left
-  - It's neat!
-]
-.col-6[
-  ### Right column
-
-  - I'm on the right
-  - I love it!
-]
-
-## Learn the tricks
-
-See the [wiki](https://github.com/gnab/remark/wiki) to learn more of what you can do with .alt[Remark.js]

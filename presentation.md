@@ -415,18 +415,18 @@ Monacaのタブを開き、index.htmlの16行目から始まるbodyタグの中�
 
 ```js
 function omikuji() { // おみくじボタン押下時の処理
-  var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
+  var Omikuji = ncmb.DataStore('Omikuji'); // 取得元クラスの生成
   // 取得処理
   Omikuji.fetchAll()
     .then(function(objects){
       var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
       var object = objects[random]; // 乱数番目のデータ
-      var result= object.get("result"); // 「result」フィールドの値を取得
-      document.getElementById("result").innerText = result; // 画面に結果を表示
+      var result= object.get('result'); // 「result」フィールドの値を取得
+      document.getElementById('result').innerText = result; // 画面に結果を表示
       })
     .catch(function(error){
       /* 取得失敗時の処理 */
-      alert("Error: " + error.code);
+      alert('Error: ' + error.code);
     });
 }
 ```
@@ -438,7 +438,7 @@ function omikuji() { // おみくじボタン押下時の処理
 ## 取得処理の実装②
 
 ```js
-var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
+var Omikuji = ncmb.DataStore('Omikuji'); // 取得元クラスの生成
 ```
 
 データストア上のOmikujiクラスを参照するためのクラスOmikujiを作成します。
@@ -448,8 +448,8 @@ Omikuji.fetchAll()
   .then(function(objects){
     var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
     var object = objects[random]; // 乱数番目のデータ
-    var result= object.get("result"); // 「result」フィールドの値を取得
-    document.getElementById("result").innerText = result; // 画面に結果を表示
+    var result= object.get('result'); // 「result」フィールドの値を取得
+    document.getElementById('result').innerText = result; // 画面に結果を表示
   })
 ```
 
@@ -466,7 +466,7 @@ Omikuji.fetchAll()
 ```js
 .catch(function(error){
   /* 取得失敗時の処理 */
-  alert("Error: " + error.code);
+  alert('Error: ' + error.code);
 });
 ```
 
@@ -485,18 +485,18 @@ scriptタグ全体としては、以下のようになります。
   var ncmb = new NCMB(APPLICATION_KEY, CLIENT_KEY); // SDKの初期化処理
 
   function omikuji() { // おみくじボタン押下時の処理
-    var Omikuji = ncmb.DataStore("Omikuji"); // 取得元クラスの生成
+    var Omikuji = ncmb.DataStore('Omikuji'); // 取得元クラスの生成
     // 取得処理
     Omikuji.fetchAll()
       .then(function(objects){
         var random = Math.floor(Math.random()*objects.length); // データ数内で乱数を作成
         var object = objects[random]; // 乱数番目のデータ
-        var result= object.get("result"); // 「result」フィールドの値を取得
-        document.getElementById("result").innerText = result; // 画面に結果を表示
+        var result= object.get('result'); // 「result」フィールドの値を取得
+        document.getElementById('result').innerText = result; // 画面に結果を表示
       })
       .catch(function(error){
         /* 取得失敗時の処理 */
-        alert("Error: " + error.code);
+        alert('Error: ' + error.code);
       });
   }
 </script>
